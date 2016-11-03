@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "901598705430",
+    "firebase_url": "https://gamesex-4c36a.firebaseio.com",
+    "project_id": "gamesex-4c36a",
+    "storage_bucket": "gamesex-4c36a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901598705430:android:9cbc1855e1e4b49d",
+        "android_client_info": {
+          "package_name": "br.com.gamesex.gamesex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901598705430-r078o6ncgud3ss2h8fncnkv224fkl1df.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8CEQJFe24NSZGovk-ZXor6v3G0G4JwD8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
