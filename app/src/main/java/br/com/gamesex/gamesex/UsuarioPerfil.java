@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class UsuarioPerfil {
 
-    private byte img_user;
+    private String imgUser;
     private String nome;
     private String email;
     private String console;
@@ -36,12 +36,12 @@ public class UsuarioPerfil {
     }
 
 
-    public byte getImg_user() {
-        return img_user;
+    public String getImgUser() {
+        return imgUser;
     }
 
-    public void setImg_user(byte img_user) {
-        this.img_user = img_user;
+    public void setImgUser(String imgUser) {
+        this.imgUser = imgUser;
     }
 
     public String getNome() {
@@ -68,7 +68,7 @@ public class UsuarioPerfil {
         HashMap<String, Object> result = new HashMap<>();
         result.put("email", email);
         result.put("nome", nome);
-       // result.put("imagem", img_user);
+        result.put("imagem", imgUser);
 
         return result;
 

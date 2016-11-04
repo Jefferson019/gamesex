@@ -34,5 +34,7 @@ public class ConsoleViewHolder extends RecyclerView.ViewHolder implements View.O
     @Override
     public void onClick(View view) {
 
+
+
     }
 }

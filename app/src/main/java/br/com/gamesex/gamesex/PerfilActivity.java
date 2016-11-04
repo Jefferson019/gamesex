@@ -1,12 +1,18 @@
 package br.com.gamesex.gamesex;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
+import android.provider.MediaStore;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
@@ -14,19 +20,24 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
+
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
+
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,9 +46,12 @@ import java.util.List;
 
 public class PerfilActivity extends AppCompatActivity {
 
-        private static final String TAGPERFIL  = "CadastroActivity";
+        final static  String TAGPERFIL  = "CadastroActivity";
+        final private int CAMERA_PIC_REQUEST = 1;
+        final private int CAPTURE_IMAGE = 2;
         private EditText emailReceber;
         private EditText editTextNomeP;
+        private ImageView imageViewUser;
 
         private ProgressDialog progressDialog;
 
@@ -51,6 +65,8 @@ public class PerfilActivity extends AppCompatActivity {
 
         private ConsoleRecycleViewAdapter recycleConsoleViewAdapter;
         private List<Console> listarConsole = new ArrayList<>();
+
+        private UsuarioPerfil userPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +105,54 @@ public class PerfilActivity extends AppCompatActivity {
         btnSair = (Button) findViewById(R.id.btnSairCancelar);
         emailReceber = (EditText) findViewById(R.id.editEmail);
         editTextNomeP = (EditText) findViewById(R.id.edit_Txt_Nome);
+        imageViewUser = (ImageView) findViewById(R.id.imageUser);
+
+
+
+        imageViewUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               final String imgUserPerfil;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(PerfilActivity.this);
+                builder.setMessage("Selecionar imagem do Perfil")
+                        .setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                //camera intent
+                                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(takePictureIntent, 5678);
+                            }
+                        })
+                        .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent();
+                                intent.setType("image/*");
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), 1234);
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                byte[] imageByteArray = Base64.decode(userPerfil.getImgUser(), Base64.DEFAULT);
+
+                Glide.with(PerfilActivity.this).load(imageByteArray)
+                        .asBitmap()
+                        .centerCrop()
+                        .into(new BitmapImageViewTarget(imageViewUser) {
+                            @Override
+                            protected void setResource(Bitmap resource) {
+                                RoundedBitmapDrawable circularBitmapDrawable =
+                                        RoundedBitmapDrawableFactory.create(imageViewUser.getResources(), resource);
+                                circularBitmapDrawable.setCircular(true);
+
+                            }
+                        });
+            }
+        });
+
+
+
 
 
 
@@ -96,6 +160,8 @@ public class PerfilActivity extends AppCompatActivity {
         Bundle paramsEmail = recebeEmail.getExtras();
 
         String recebrEmail = this.getIntent().getStringExtra("email");
+
+
 
         emailReceber.setText(recebrEmail.toString());
 
@@ -109,7 +175,7 @@ public class PerfilActivity extends AppCompatActivity {
 
                 if(TextUtils.isEmpty(nome)){
 
-                    Log.w(TAGPERFIL, "createaccountPerfil"+ nome);
+                    Log.d(TAGPERFIL, "createaccountPerfil"+ nome);
                     editTextNomeP.setError("O Campo nome é necessário");
                 }
 
