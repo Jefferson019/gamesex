@@ -47,7 +47,7 @@ import java.util.List;
 public class PerfilActivity extends AppCompatActivity {
 
         final static  String TAGPERFIL  = "CadastroActivity";
-        final private int CAMERA_PIC_REQUEST = 1;
+        final private int GALERY = 1;
         final private int CAPTURE_IMAGE = 2;
         private EditText emailReceber;
         private EditText editTextNomeP;
@@ -115,26 +115,28 @@ public class PerfilActivity extends AppCompatActivity {
                final String imgUserPerfil;
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(PerfilActivity.this);
-                builder.setMessage("Selecionar imagem do Perfil")
+                builder.setMessage("Selecionar a imagem do Perfil:")
                         .setPositiveButton("Camera", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 //camera intent
                                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(takePictureIntent, 5678);
+                                startActivityForResult(takePictureIntent, CAPTURE_IMAGE);
                             }
                         })
-                        .setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Galeria", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent intent = new Intent();
                                 intent.setType("image/*");
                                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), 1234);
+                                startActivityForResult(Intent.createChooser(intent, "Selecione uma imagem"), GALERY);
                             }
                         });
                 AlertDialog alert = builder.create();
                 alert.show();
 
-                byte[] imageByteArray = Base64.decode(userPerfil.getImgUser(), Base64.DEFAULT);
+               // userPerfil.setImgUser();
+
+                /*byte[] imageByteArray = Base64.decode(userPerfil.getImgUser(), Base64.DEFAULT);
 
                 Glide.with(PerfilActivity.this).load(imageByteArray)
                         .asBitmap()
@@ -147,7 +149,7 @@ public class PerfilActivity extends AppCompatActivity {
                                 circularBitmapDrawable.setCircular(true);
 
                             }
-                        });
+                        });*/
             }
         });
 
