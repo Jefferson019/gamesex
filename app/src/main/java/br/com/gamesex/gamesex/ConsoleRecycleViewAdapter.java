@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import br.com.gamesex.gamesex.Interface.RecycleOnItemClickListener;
+
 /**
  * Created by jeffe on 31/10/2016.
  */
@@ -17,18 +19,23 @@ public class ConsoleRecycleViewAdapter extends RecyclerView.Adapter<ConsoleViewH
 
     private Context context;
     private List<Console> listConsoles;
-
+    RecycleOnItemClickListener recycleOnItemClickListener;
 
     public ConsoleRecycleViewAdapter(Context context, List<Console> pListConsole) {
         this.context = context;
         this.listConsoles = pListConsole;
     }
 
+    public void setRecycleOnItemClickListener(RecycleOnItemClickListener recycleOnItemClickListener){
+
+         this.recycleOnItemClickListener = recycleOnItemClickListener;
+    }
 
     @Override
     public ConsoleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_list_console, parent, false);
          return new ConsoleViewHolder(view);
+
     }
 
     @Override
@@ -37,6 +44,8 @@ public class ConsoleRecycleViewAdapter extends RecyclerView.Adapter<ConsoleViewH
         Console console = listConsoles.get(position);
 
         holder.listConsole.setText(console.getNome());
+
+
 
     }
 
