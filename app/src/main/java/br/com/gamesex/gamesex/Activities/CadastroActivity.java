@@ -1,4 +1,4 @@
-package br.com.gamesex.gamesex.Activities;
+package br.com.gamesex.gamesex.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import br.com.gamesex.gamesex.R;
-import br.com.gamesex.gamesex.UsuarioPerfil;
+import br.com.gamesex.gamesex.model.UsuarioPerfil;
 
 public class CadastroActivity extends AppCompatActivity implements
         View.OnClickListener {
@@ -114,7 +114,8 @@ public class CadastroActivity extends AppCompatActivity implements
 
         if(!TextUtils.equals(confirPassword, password)){
             // Senha vazio
-            Toast.makeText(this, "As senhas são diferentes",Toast.LENGTH_SHORT).show();
+            editTextConfSenha.setError("As senhas são diferentes");
+            Log.w(TAG, "confirmPassword:"+ password);
 
             return;
         }
@@ -163,44 +164,38 @@ public class CadastroActivity extends AppCompatActivity implements
                 });
     }
 
-
-
     private void updateUI(FirebaseUser user) {
 
         if (user != null) {
 
             findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
             findViewById(R.id.email_password_fields).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.disconnect_button).setVisibility(View.VISIBLE);
         } else {
 
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.edit_ConfirmPassword).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.INVISIBLE);
+            findViewById(R.id.disconnect_button).setVisibility(View.INVISIBLE);
 
         }
-
     }
 
+        @Override
+        public void onClick (View view){
 
-    @Override
-    public void onClick(View view) {
+            if (view == butonCriarConta) {
+                // criarContaInter();
+                registerUser();
+            }
 
-        if (view == butonCriarConta) {
-            // criarContaInter();
-            registerUser();
+            if (view == btnVoltar) {
+                finish();
+                Intent inteCancelar = new Intent(CadastroActivity.this, LoginActivity.class);
+                startActivity(inteCancelar);
+
+            }
+
+
         }
-
-        if(view == btnVoltar){
-            finish();
-            Intent inteCancelar = new Intent(CadastroActivity.this, LoginActivity.class);
-            startActivity(inteCancelar);
-
-        }
-
-
-
-
     }
-}

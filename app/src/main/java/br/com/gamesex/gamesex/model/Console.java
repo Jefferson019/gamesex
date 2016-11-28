@@ -1,21 +1,21 @@
-package br.com.gamesex.gamesex;
+package br.com.gamesex.gamesex.model;
 
 /**
  * Created by jeffe on 28/10/2016.
  */
 public class Console {
 
-    private int cd_console;
+    private int id;
     private String nome;
 
 
 
-    public int getCd_console() {
-        return cd_console;
+    public int getId() {
+        return id;
     }
 
-    public void setCd_console(int cd_console) {
-        this.cd_console = cd_console;
+    public void setId(int cd_console) {
+        this.id = id;
     }
 
     public String getNome() {

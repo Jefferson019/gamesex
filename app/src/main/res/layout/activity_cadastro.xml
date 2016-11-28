@@ -17,9 +17,9 @@
 
         <ImageView
             android:id="@+id/icon"
-            style="@style/ThemeOverlay.FirebaseIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@mipmap/ic_app_gamesex" />
 
         <TextView
@@ -28,12 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/title_bottom_margin"
             android:text="@string/emailpassword_title_text"
+
             android:theme="@style/ThemeOverlay.MyTitleText" />
 
-        <TextView
-            android:id="@+id/detail"
-            style="@style/ThemeOverlay.MyTextDetail"
-            tools:text="Firebase User ID: 123456789abc" />
 
     </LinearLayout>
 
@@ -51,7 +48,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="@string/hint_email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:theme="@style/ThemeOverlay.MyTextDetail"/>
 
         <EditText
             android:id="@+id/field_password"
@@ -59,7 +57,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="@string/hint_password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:theme="@style/ThemeOverlay.MyTextDetail"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -68,7 +67,8 @@
             android:ems="10"
             android:hint="@string/hint_confirm_password"
             android:id="@+id/edit_ConfirmPassword"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:theme="@style/ThemeOverlay.MyTextDetail"/>
 
     </LinearLayout>
 
@@ -89,13 +89,13 @@
             <Button
                 android:id="@+id/email_create_account_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="@string/create_account"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="Voltar"
                 android:id="@+id/btn_cancelar"
                 android:theme="@style/ThemeOverlay.MyDarkButton" />

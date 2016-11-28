@@ -2,20 +2,20 @@ package br.com.gamesex.gamesex;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import br.com.gamesex.gamesex.interfaces.RecycleOnItemClickListener;
+import br.com.gamesex.gamesex.model.Console;
 
 /**
  * Created by jeffe on 31/10/2016.
  */
 public class ConsoleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+    private static final String TAG = "msgLog" ;
     public TextView listConsole;
     public Console consoles;
-    OnItemClickListener mItemClickListener;
+    RecycleOnItemClickListener mItemClickListener;
 
     public ConsoleViewHolder(View itemView){
         super(itemView);
@@ -30,25 +30,23 @@ public class ConsoleViewHolder extends RecyclerView.ViewHolder implements View.O
 
 
     }
-    public void onItemClick(View view, int position){}
+    public void onItemClick(View view, int position){
 
-    public interface OnItemClickListener{
 
-        public void onItemClick(View v, int position);
     }
-    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener){
+
+    public void SetOnItemClickListener(RecycleOnItemClickListener mItemClickListener){
 
         this.mItemClickListener = mItemClickListener;
     }
 
     @Override
     public void onClick(View view) {
+        //Toast.makeText(view, "Item clicado", Toast.LENGTH_SHORT).show();
+       mItemClickListener.onItemClickListener(getAdapterPosition());
 
-        if(mItemClickListener !=null){
-
-            mItemClickListener.onItemClick(view, getPosition());
-        }
-    }
+       // Log.d(TAG, "onClick" +getPosition() + " " + mItemClickListener);
+}
 
 
 }

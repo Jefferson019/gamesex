@@ -1,4 +1,4 @@
-package br.com.gamesex.gamesex.Activities;
+package br.com.gamesex.gamesex.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements
 
                 finish();
 
-                startActivity(new Intent(getApplicationContext(), SelecionarActivity.class ));
+                startActivity(new Intent(getApplicationContext(), ListaJogosActivity.class ));
             }
 
             progressDialog = new ProgressDialog(this);
@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements
                             if(firebaseAuth.getCurrentUser()!= null){
                             Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
-                                startActivity(new Intent(getApplicationContext(), SelecionarActivity.class ));
+                                startActivity(new Intent(getApplicationContext(), ListaJogosActivity.class ));
                             }
                         }
 
@@ -136,21 +136,19 @@ public class LoginActivity extends AppCompatActivity implements
         // [END sign_in_with_email]
     }
 
-
-
-
     private void updateUI(FirebaseUser user) {
 
         if (user != null) {
 
             findViewById(R.id.email_password_buttons).setVisibility(View.GONE);
             findViewById(R.id.email_password_fields).setVisibility(View.GONE);
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.disconnect_button).setVisibility(View.VISIBLE);
         } else {
 
             findViewById(R.id.email_password_buttons).setVisibility(View.VISIBLE);
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_button).setVisibility(View.INVISIBLE);
+            findViewById(R.id.edit_ConfirmPassword).setVisibility(View.VISIBLE);
+            findViewById(R.id.disconnect_button).setVisibility(View.INVISIBLE);
 
         }
 

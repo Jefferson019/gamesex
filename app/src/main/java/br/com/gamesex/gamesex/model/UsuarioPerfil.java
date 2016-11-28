@@ -1,4 +1,4 @@
-package br.com.gamesex.gamesex;
+package br.com.gamesex.gamesex.model;
 
 import android.widget.EditText;
 
@@ -16,7 +16,7 @@ public class UsuarioPerfil {
     private String imgUser;
     private String nome;
     private String email;
-    private String console;
+    private int console;
 
 
     //private String confirmPasswordTxt;
@@ -60,15 +60,16 @@ public class UsuarioPerfil {
         this.email = email;
     }
 
-    public String getConsole() {        return console;    }
+    public int getConsole() {        return console;    }
 
-    public void setConsole(String console) {        this.console = console;    }
+    public void setConsole(int console) {        this.console = console;    }
 
     public Map<String, Object> toUserMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("email", email);
         result.put("nome", nome);
         result.put("imagem", imgUser);
+        result.put("id_console", console);
 
         return result;
 

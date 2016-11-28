@@ -1,4 +1,4 @@
-package br.com.gamesex.gamesex.Activities;
+package br.com.gamesex.gamesex.activities;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -44,11 +44,11 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.gamesex.gamesex.Console;
+import br.com.gamesex.gamesex.model.Console;
 import br.com.gamesex.gamesex.ConsoleRecycleViewAdapter;
-import br.com.gamesex.gamesex.Interface.RecycleOnItemClickListener;
+import br.com.gamesex.gamesex.interfaces.RecycleOnItemClickListener;
 import br.com.gamesex.gamesex.R;
-import br.com.gamesex.gamesex.UsuarioPerfil;
+import br.com.gamesex.gamesex.model.UsuarioPerfil;
 
 
 public class PerfilActivity extends AppCompatActivity implements View.OnClickListener {
@@ -73,7 +73,9 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
         private ConsoleRecycleViewAdapter recycleConsoleViewAdapter;
         private List<Console> listarConsole = new ArrayList<>();
 
-        private UsuarioPerfil userPerfil;
+        private String imgPerfil;
+        private int consoleId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +85,9 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
         progressDialog = new ProgressDialog(this);
 
         recycleConsoleViewAdapter = new ConsoleRecycleViewAdapter(this, listarConsole);
-        recycleConsoleViewAdapter.setRecycleOnItemClickListener((RecycleOnItemClickListener) this);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_ricycler_view);
+
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_ricycler_view);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setAdapter(recycleConsoleViewAdapter);
@@ -93,6 +95,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
 
         LinearLayoutManager layout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
+
 
         firebaseListarConsole();
 
@@ -113,6 +116,13 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
 
         String recebrEmail = this.getIntent().getStringExtra("email");
 
+        recycleConsoleViewAdapter.SetRecycleOnItemClickListener(new RecycleOnItemClickListener() {
+            @Override
+            public void onItemClickListener(int consoleId) {
+                PerfilActivity.this.consoleId = consoleId+1;
+            }
+        });
+
 
 
         emailReceber.setText(recebrEmail.toString());
@@ -124,18 +134,18 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View view) {
                 final String email = emailReceber.getText().toString().trim();
                 final String nome = editTextNomeP.getText().toString().trim();
-                final String imageUserSet = imageViewUser.getResources().toString();
 
-                if(TextUtils.isEmpty(nome)){
+                while (TextUtils.isEmpty(nome)){
 
+                   editTextNomeP.setError("O Campo nome é necessário");
                     Log.d(TAGPERFIL, "createaccountPerfil"+ nome);
-                    editTextNomeP.setError("O Campo nome é necessário");
                 }
 
                 UsuarioPerfil user = new UsuarioPerfil();
                 user.setEmail(email);
                 user.setNome(nome);
-                user.setImgUser(imageUserSet);
+                user.setImgUser(imgPerfil);
+                user.setConsole(consoleId);
 
                 database = FirebaseDatabase.getInstance();
                 mDatabase = database.getReference("Users");
@@ -143,8 +153,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
                 DatabaseReference recordUser=  mDatabase.push();
                 recordUser.updateChildren(user.toUserMap());
 
-
-                Intent vaiMain = new Intent(getApplicationContext(), SelecionarActivity.class);
+                Intent vaiMain = new Intent(getApplicationContext(), ListaJogosActivity.class);
                 startActivity(vaiMain);
 
                 NotificationCompat.Builder nCadastro = new NotificationCompat.Builder(PerfilActivity.this);
@@ -152,7 +161,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
                 nCadastro.setContentTitle("Games-Exchange GEx");
                 nCadastro.setContentText("Seja bem vindo a GamesEx, A rede social do seu game!");
 
-                Intent notifBoasVIndas = new Intent(PerfilActivity.this, SelecionarActivity.class);
+                Intent notifBoasVIndas = new Intent(PerfilActivity.this, ListaJogosActivity.class);
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
 
                 stackBuilder.addNextIntentWithParentStack(notifBoasVIndas);
@@ -185,7 +194,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
     private void selecionarImagem(){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(PerfilActivity.this);
-        builder.setMessage("Selecionar a imagem do Perfil:")
+        builder.setMessage("Selecionar uma imagem para o seu Perfil:")
                 .setPositiveButton("Camera", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //camera intent
@@ -205,6 +214,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
         alert.show();
 
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == CAPTURE_IMAGE) {
             if (resultCode == RESULT_OK) {
@@ -227,7 +237,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
                                 resource.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                                 byte[] byteArray = byteArrayOutputStream .toByteArray();
                                 String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
+                                imgPerfil = encoded;
                             }
 
                         });
@@ -256,6 +266,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
                                 resource.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                                 byte[] byteArray = byteArrayOutputStream .toByteArray();
                                 String encodedGalery = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                imgPerfil = encodedGalery;
 
                             }
 
@@ -280,13 +291,13 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot c : dataSnapshot.getChildren()){
-                    Console console = c.getValue(Console.class);
 
+                    Console console = c.getValue(Console.class);
                     listarConsole.add(console);
+
                 }
 
                 recycleConsoleViewAdapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -297,6 +308,7 @@ public class PerfilActivity extends AppCompatActivity implements View.OnClickLis
         });
 
     }
+
 
 
     @Override

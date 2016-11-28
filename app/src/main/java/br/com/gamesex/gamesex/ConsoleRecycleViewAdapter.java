@@ -2,15 +2,14 @@ package br.com.gamesex.gamesex;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.gamesex.gamesex.Interface.RecycleOnItemClickListener;
+import br.com.gamesex.gamesex.interfaces.RecycleOnItemClickListener;
+import br.com.gamesex.gamesex.model.Console;
 
 /**
  * Created by jeffe on 31/10/2016.
@@ -26,7 +25,7 @@ public class ConsoleRecycleViewAdapter extends RecyclerView.Adapter<ConsoleViewH
         this.listConsoles = pListConsole;
     }
 
-    public void setRecycleOnItemClickListener(RecycleOnItemClickListener recycleOnItemClickListener){
+    public void SetRecycleOnItemClickListener(final RecycleOnItemClickListener recycleOnItemClickListener){
 
          this.recycleOnItemClickListener = recycleOnItemClickListener;
     }
@@ -44,8 +43,8 @@ public class ConsoleRecycleViewAdapter extends RecyclerView.Adapter<ConsoleViewH
         Console console = listConsoles.get(position);
 
         holder.listConsole.setText(console.getNome());
-
-
+        holder.consoles = console;
+        holder.mItemClickListener = recycleOnItemClickListener;
 
     }
 

@@ -17,9 +17,9 @@
 
         <ImageView
             android:id="@+id/icon"
-            style="@style/ThemeOverlay.FirebaseIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@mipmap/ic_app_gamesex"
              />
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/title_bottom_margin"
             android:text="@string/emailpassword_title_text"
-            android:theme="@style/ThemeOverlay.MyTitleText" />
+            android:theme="@style/ThemeOverlay.MyTextDetail" />
 
         <TextView
             android:id="@+id/detail"
@@ -52,7 +52,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="@string/hint_email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:theme="@style/ThemeOverlay.MyTextDetail"/>
 
         <EditText
             android:id="@+id/field_password"
