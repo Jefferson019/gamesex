@@ -75,6 +75,7 @@ public class ListaJogosActivity extends AppCompatActivity {
                     Games games = c.getValue(Games.class);
                     gamesLst.add(games);
                 }
+                reyclerViewAdapterGame.notifyDataSetChanged();
             }
 
             @Override

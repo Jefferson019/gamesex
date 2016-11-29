@@ -58,8 +58,9 @@ public class ListGamesRecyclerViewAdapter extends RecyclerView.Adapter<GamesView
                     .into(new SimpleTarget<Bitmap>(100, 100){
 
                         @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
                             holder.gamesimg.setImageBitmap(resource);
+
                         }
 
         });
